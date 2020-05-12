@@ -40,6 +40,9 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 
+import lombok.Setter;
+import lombok.Getter;
+
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE, schema = "myapp" )
 @javax.jdo.annotations.DatastoreIdentity(strategy = IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy= VersionStrategy.DATE_TIME, column ="version")
@@ -55,12 +58,13 @@ public class Owner implements Comparable<Owner> {
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @Property(editing = Editing.DISABLED)
     @Title(prepend = "Object: ")
+    @Getter @Setter
     private String name;
-    public String getName() { return name; }
-    public void setName(final String name) { this.name = name; }
+
 
     @javax.jdo.annotations.Column(allowsNull = "true", length = 4000)
     @Property(editing = Editing.ENABLED)
+    @Getter @Setter
     private String notes;
     public String getNotes() { return notes; }
     public void setNotes(final String notes) { this.notes = notes; }

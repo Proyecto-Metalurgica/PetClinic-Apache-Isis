@@ -52,7 +52,7 @@ public class Owners {
     @MemberOrder(sequence = "2")
     public List<Owner> findByName(final String name) {
         TypesafeQuery<Owner> q = isisJdoSupport.newTypesafeQuery(Owner.class);
-        final QHelloWorldObject cand = QHelloWorldObject.candidate();
+        final QOwner cand = QOwner.candidate();
         q = q.filter(
                 cand.name.indexOf(q.stringParameter("name")).ne(-1)
         );
