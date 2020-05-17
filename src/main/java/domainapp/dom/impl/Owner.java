@@ -39,47 +39,57 @@ import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-
 import lombok.Setter;
 import lombok.Getter;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE, schema = "myapp" )
 @javax.jdo.annotations.DatastoreIdentity(strategy = IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy= VersionStrategy.DATE_TIME, column ="version")
-@javax.jdo.annotations.Unique(name="Owner_name_UNQ", members = {"name"})
+@javax.jdo.annotations.Unique(name="Owner_lastName_firstName_UNQ", members = {"lastName", "firstName"})
 @DomainObject(auditing = Auditing.ENABLED)
 @DomainObjectLayout()  // causes UI events to be triggered
 public class Owner implements Comparable<Owner> {
 
-    public Owner(final String name) {
-        this.name = name;
+    public Owner(final String lastName, final String firstName) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+    }
+
+    public String title(){
+        return getLastName() + ", " + getFirstName().substring(0,1);
     }
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @Property
-    @Title(prepend = "Object: ")
     @Getter @Setter
-    private String name;
+    private String lastName;
 
+    @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
+    @Property
+    @Getter @Setter
+    private String firstName;
 
     @javax.jdo.annotations.Column(allowsNull = "true", length = 4000)
     @Property(editing = Editing.ENABLED)
     @Getter @Setter
     private String notes;
-    public String getNotes() { return notes; }
-    public void setNotes(final String notes) { this.notes = notes; }
 
 
     @Action(semantics = SemanticsOf.IDEMPOTENT, command = CommandReification.ENABLED, publishing = Publishing.ENABLED)
     public Owner updateName(
             @Parameter(maxLength = 40)
-
-            final String name) {
-        setName(name);
+            final String lastName,
+            @Parameter(maxLength = 40)
+            final String firstName) {
+        setLastName(lastName);
+        setFirstName(firstName);
         return this;
     }
     public String default0UpdateName() {
-        return getName();
+        return getLastName();
+    }
+    public String default1UpdateName() {
+        return getFirstName();
     }
 
 
@@ -92,13 +102,14 @@ public class Owner implements Comparable<Owner> {
 
     @Override
     public String toString() {
-        return getName();
+        return getLastName();
     }
 
     @Override
     public int compareTo(final Owner other) {
         return ComparisonChain.start()
-                .compare(this.getName(), other.getName())
+                .compare(this.getLastName(), other.getLastName())
+                .compare(this.getFirstName(), other.getFirstName())
                 .result();
     }
 
