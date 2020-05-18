@@ -18,6 +18,9 @@
  */
 package domainapp.dom.impl;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
@@ -31,7 +34,6 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Parameter;
-
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
@@ -39,6 +41,8 @@ import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
+import org.apache.isis.applib.spec.AbstractSpecification;
+
 import lombok.Setter;
 import lombok.Getter;
 
@@ -75,14 +79,19 @@ public class Owner implements Comparable<Owner> {
     @Getter @Setter
     private String firstName;
 
-    @javax.jdo.annotations.Column(allowsNull = "true", length = 15)
-
-    @Property(
-            editing = Editing.ENABLED,
-            regexPattern = "[+]?[0-9 ]+",
-            regexPatternReplacement =
+    public static class PhoneNumberSpec extends AbstractSpecification<String> {
+        @Override
+        public String satisfiesSafely(final String phoneNumber) {
+            Matcher matcher = Pattern.compile("[+]?[0-9 ]+").matcher(phoneNumber);
+            return matcher.matches() ? null :
                     "Especificar solamente numeros y espacios, opcionalmente prefijados con '+'.  " +
-                            "Por ejemplo, '+354 1 555 1234', o '07123 456789'"
+                            "Por ejemplo, '+354 1 555 1234', o '07123 456789'";
+        }
+    }
+
+    @javax.jdo.annotations.Column(allowsNull = "true", length = 15)
+    @Property(editing = Editing.ENABLED,
+            mustSatisfy = PhoneNumberSpec.class
     )
     @Getter @Setter
     private String phoneNumber;
