@@ -104,8 +104,6 @@ public class Owner implements Comparable<Owner> {
         return emailAdress.contains("@") ? null : "Email adress must contain a '@'";
     }
 
-
-
     @javax.jdo.annotations.Column(allowsNull = "true", length = 4000)
     @Property(editing = Editing.ENABLED)
     @Getter @Setter
@@ -136,6 +134,12 @@ public class Owner implements Comparable<Owner> {
         messageService.informUser(String.format("'%s' deleted", title));
         repositoryService.removeAndFlush(this);
     }
+
+    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
+    public Pet newPet(final String name, final PetSpecies petSpecies) {
+        return repositoryService.persist(new Pet(this, name, petSpecies));
+    }
+
 
     @Override
     public String toString() {
