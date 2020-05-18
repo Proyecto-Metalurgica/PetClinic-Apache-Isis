@@ -59,6 +59,12 @@ public class Owner implements Comparable<Owner> {
         return getLastName() + ", " + getFirstName().substring(0,1);
     }
 
+
+    @Property(notPersisted = true)
+    public String getName() {
+        return getFirstName() + " " + getLastName();
+    }
+
     @javax.jdo.annotations.Column(allowsNull = "false", length = 40)
     @Property(hidden = Where.EVERYWHERE)
     @Getter @Setter
@@ -68,6 +74,28 @@ public class Owner implements Comparable<Owner> {
     @Property(hidden = Where.EVERYWHERE)
     @Getter @Setter
     private String firstName;
+
+    @javax.jdo.annotations.Column(allowsNull = "true", length = 15)
+
+    @Property(
+            editing = Editing.ENABLED,
+            regexPattern = "[+]?[0-9 ]+",
+            regexPatternReplacement =
+                    "Especificar solamente numeros y espacios, opcionalmente prefijados con '+'.  " +
+                            "Por ejemplo, '+354 1 555 1234', o '07123 456789'"
+    )
+    @Getter @Setter
+    private String phoneNumber;
+
+    @javax.jdo.annotations.Column(allowsNull = "true", length = 50)
+    @Property(editing = Editing.ENABLED)
+    @Getter @Setter
+    private String emailAdress;
+    public String validateEmailAdress(String emailAdress){
+        return emailAdress.contains("@") ? null : "Email adress must contain a '@'";
+    }
+
+
 
     @javax.jdo.annotations.Column(allowsNull = "true", length = 4000)
     @Property(editing = Editing.ENABLED)
