@@ -1,5 +1,6 @@
-package domainapp.dom.impl;
+package domainapp.modules.impl.pets.dom;
 
+import domainapp.modules.impl.pets.dom.Pet;
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.joda.time.LocalDate;

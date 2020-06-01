@@ -18,7 +18,7 @@
  */
 package domainapp.application;
 
-import domainapp.dom.impl.RecreateOwnersAndPets;
+import domainapp.modules.impl.pets.fixtures.RecreateOwnersAndPets;
 import org.apache.isis.applib.AppManifestAbstract2;
 
 /**

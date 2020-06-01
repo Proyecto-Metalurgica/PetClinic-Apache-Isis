@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.impl;
+package domainapp.modules.impl.visits.dom;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -24,6 +24,7 @@ import javax.jdo.annotations.VersionStrategy;
 
 import com.google.common.collect.ComparisonChain;
 
+import domainapp.modules.impl.pets.dom.Pet;
 import org.joda.time.LocalDateTime;
 
 import org.apache.isis.applib.annotation.Auditing;

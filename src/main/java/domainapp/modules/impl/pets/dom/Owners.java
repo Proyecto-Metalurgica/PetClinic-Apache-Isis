@@ -16,10 +16,12 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.impl;
+package domainapp.modules.impl.pets.dom;
 
 import java.util.List;
 
+import domainapp.modules.impl.pets.dom.QOwner;
+import domainapp.modules.impl.pets.dom.Owner;
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
 import org.apache.isis.applib.annotation.Action;

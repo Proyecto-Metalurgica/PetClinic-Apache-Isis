@@ -16,8 +16,9 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.impl;
+package domainapp.modules.impl.pets.dom;
 
+import domainapp.modules.impl.pets.dom.Owner;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
