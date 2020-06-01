@@ -63,7 +63,7 @@ public class Owners {
     @MemberOrder(sequence = "2")
     public List<Owner> findByName(final String name) {
         TypesafeQuery<Owner> q = isisJdoSupport.newTypesafeQuery(Owner.class);
-        final QOwner cand = QOwner.candidate();
+        final domainapp.modules.impl.pets.dom.QOwner cand = domainapp.modules.impl.pets.dom.QOwner.candidate();
         q = q.filter(
                 cand.lastName.indexOf(q.stringParameter("name")).ne(-1).or(
                         cand.firstName.indexOf(q.stringParameter("name")).ne(-1)
