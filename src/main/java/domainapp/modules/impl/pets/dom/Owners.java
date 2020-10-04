@@ -16,18 +16,20 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.impl;
+package domainapp.modules.impl.pets.dom;
 
 import java.util.List;
 
+import domainapp.modules.impl.pets.dom.QOwner;
+import domainapp.modules.impl.pets.dom.Owner;
 import org.datanucleus.query.typesafe.TypesafeQuery;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
-import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.RestrictTo;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
@@ -35,7 +37,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
-        objectType = "myapp.Owners"
+        objectType = "pets.Owners"
 )
 public class Owners {
 
@@ -43,18 +45,29 @@ public class Owners {
     @MemberOrder(sequence = "1")
     public Owner create(
             @Parameter(maxLength = 40)
-            @ParameterLayout(named = "Name")
-            final String name) {
-        return repositoryService.persist(new Owner(name));
+            final String lastName,
+            @Parameter(maxLength = 40)
+            final String firstName,
+            @Parameter(
+                    mustSatisfy = Owner.PhoneNumberSpec.class,
+                    maxLength = 15,
+                    optionality = Optionality.OPTIONAL
+            )
+            final String phoneNumber) {
+        Owner owner = new Owner(lastName, firstName);
+        owner.setPhoneNumber(phoneNumber);
+        return repositoryService.persist(owner);
     }
 
     @Action(semantics = SemanticsOf.SAFE)
     @MemberOrder(sequence = "2")
     public List<Owner> findByName(final String name) {
         TypesafeQuery<Owner> q = isisJdoSupport.newTypesafeQuery(Owner.class);
-        final QOwner cand = QOwner.candidate();
+        final domainapp.modules.impl.pets.dom.QOwner cand = domainapp.modules.impl.pets.dom.QOwner.candidate();
         q = q.filter(
-                cand.name.indexOf(q.stringParameter("name")).ne(-1)
+                cand.lastName.indexOf(q.stringParameter("name")).ne(-1).or(
+                        cand.firstName.indexOf(q.stringParameter("name")).ne(-1)
+                )
         );
         return q.setParameter("name", name)
                 .executeList();

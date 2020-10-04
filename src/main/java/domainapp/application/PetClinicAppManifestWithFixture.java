@@ -16,25 +16,20 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.impl;
+package domainapp.application;
 
-import org.junit.Test;
+import domainapp.modules.impl.pets.fixtures.RecreateOwnersAndPets;
+import org.apache.isis.applib.AppManifestAbstract2;
 
-import static org.assertj.core.api.Assertions.assertThat;
+/**
+ * Bootstrap the application.
+ */
+public class PetClinicAppManifestWithFixture extends AppManifestAbstract2 {
 
-public class OwnerTest_updateName {
+    public static final Builder BUILDER = PetClinicAppManifest.BUILDER
+            .withFixtureScripts(RecreateOwnersAndPets.class);
 
-    @Test
-    public void happy_case() throws Exception {
-        // given
-        final Owner object = new Owner("Foo");
-        assertThat(object.getName()).isEqualTo("Foo");
-
-        // when
-        object.updateName("Bar");
-
-        // then
-        assertThat(object.getName()).isEqualTo("Bar");
+    public PetClinicAppManifestWithFixture() {
+        super(BUILDER);
     }
-
 }

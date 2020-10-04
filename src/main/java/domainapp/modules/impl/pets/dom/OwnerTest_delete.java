@@ -16,8 +16,9 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.impl;
+package domainapp.modules.impl.pets.dom;
 
+import domainapp.modules.impl.pets.dom.Owner;
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.junit.Rule;
@@ -48,16 +49,16 @@ public class OwnerTest_delete {
     public void happy_case() throws Exception {
 
         // given
-        final Owner object = new Owner("Foo");
+        final Owner object = new Owner("Smith","John");
         object.titleService = mockTitleService;
         object.messageService = mockMessageService;
         object.repositoryService = mockRepositoryService;
 
         // expecting
         context.checking(new Expectations() {{
-            allowing(mockTitleService).titleOf(object); will(returnValue("Foo"));
+            allowing(mockTitleService).titleOf(object); will(returnValue("Smith, J"));
 
-            oneOf(mockMessageService).informUser(with(containsString("'Foo' deleted")));
+            oneOf(mockMessageService).informUser(with(containsString("'Smith, J' deleted")));
             oneOf(mockRepositoryService).removeAndFlush(object);
         }});
 

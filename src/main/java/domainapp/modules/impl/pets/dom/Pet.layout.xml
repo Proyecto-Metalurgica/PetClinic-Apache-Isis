@@ -7,9 +7,7 @@
   to you under the Apache License, Version 2.0 (the
   "License"); you may not use this file except in compliance
   with the License.  You may obtain a copy of the License at
-
          http://www.apache.org/licenses/LICENSE-2.0
-
   Unless required by applicable law or agreed to in writing,
   software distributed under the License is distributed on an
   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -31,14 +29,16 @@
                     <bs3:row>
                         <bs3:col span="12">
                             <c:fieldSet name="Name">
-                                <c:action id="delete">
-                                    <c:describedAs>Deletes this object from the persistent datastore</c:describedAs>
-                                </c:action>
-                                <c:property id="name" namedEscaped="true">
-                                    <c:action id="updateName">
-                                        <c:describedAs>Updates the object's name</c:describedAs>
-                                    </c:action>
-                                </c:property>
+                                <c:property id="name"/>
+                                <c:property id="owner"/>
+                            </c:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+                <bs3:tab name="Notes">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <c:fieldSet name="Notes">
                                 <c:property id="notes" namedEscaped="true" multiLine="10" hidden="ALL_TABLES"/>
                             </c:fieldSet>
                         </bs3:col>
@@ -59,10 +59,23 @@
                     </bs3:row>
                 </bs3:tab>
             </bs3:tabGroup>
-            <bs3:tabGroup>
-            </bs3:tabGroup>
         </bs3:col>
         <bs3:col span="6">
+            <bs3:tabGroup collapseIfOne="false">
+                <bs3:tab name="Details">
+                    <bs3:row>
+                        <bs3:col span="12">
+                            <c:fieldSet name="Details">
+                                <c:property id="petSpecies"/>
+                            </c:fieldSet>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+            </bs3:tabGroup>
+        </bs3:col>
+    </bs3:row>
+    <bs3:row>
+        <bs3:col span="12">
             <bs3:tabGroup  unreferencedCollections="true">
             </bs3:tabGroup>
         </bs3:col>
